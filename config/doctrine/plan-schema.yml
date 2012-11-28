@@ -1,0 +1,250 @@
+Plan:
+  tableName:     plan
+  actAs:
+     I18n:
+       fields: [name, description]
+  columns:
+    id:
+      type: integer(11)
+      fixed: false
+      unsigned: false
+      primary: true
+      notnull: true
+      autoincrement: true
+    name:
+      type: string(100)
+      fixed: true
+      notnull: true
+    description:
+      type: string()
+      fixed: false
+      notnull: false
+    date_start:
+      type: timestamp
+      notnull: false
+    date_end:
+      type: timestamp
+      notnull: false
+    is_default:
+      type: boolean
+      notnull: true
+      default: false
+    disabled:
+       type: boolean
+       notnull: true
+       default: false
+    category:
+      type: string(128)
+      notnull: false
+    sortable_rank:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      notnull: false
+
+PlanFeatureDefinition:
+  tableName:     plan_feature_definition
+  actAs:
+    I18n:
+      fields: [name, description]
+  columns:
+    id:
+      type: integer(11)
+      primary: true
+      notnull: true
+      autoincrement: true
+    name:
+      type: string(100)
+      notnull: true
+    description:
+      type: string()
+      notnull: false
+    sortable_rank:
+      type: integer(4)
+      notnull: true
+
+PlanPeriod:
+  tableName: plan_period
+  actAs:
+    I18n:
+      fields: [name, plural]
+  columns:
+    id:
+      type: integer(4)
+      notnull: true
+      primary: true
+      autoincrement: true
+    name:
+      type: string(20)
+      notnull: true
+    plural:
+      type: string(20)
+      notnull: true
+    y:
+      type: integer(4)
+      notnull: true
+      default: 0
+    m:
+      type: integer(4)
+      notnull: true
+      default: 0
+    d:
+      type: integer(4)
+      notnull: true
+      default: 0
+    h:
+      type: integer(4)
+      notnull: true
+      default: 0
+    i:
+      type: integer(4)
+      notnull: true
+      default: 0
+    s:
+      type: integer(4)
+      notnull: true
+      default: 0
+    sortable_rank:
+      type: integer(4)
+      notnull: true
+
+PlanUnit:
+  tableName: plan_unit
+  actAs:
+    I18n:
+      fields: [name, plural]
+  columns:
+    id:
+      type: integer(11)
+      notnull: true
+      primary: true
+      autoincrement: true
+    name:
+      type: string(20)
+      notnull: true
+    plural:
+      type: string(20)
+      notnull: true
+
+PlanPrice:
+  tableName:     plan_price
+  columns:
+    id:
+      type: integer(11)
+      notnull: true
+      primary: true
+      autoincrement: true
+    plan_id:
+      type: integer(11)
+      notnull: true
+    currency:
+      type: string(3)
+      notnull: true
+      default: 'EUR'
+    price:
+      type: float(10,4)
+      notnull: true }
+    period_id:
+      type: integer(4)
+      notnull: false
+    date_start:
+      type: date
+      notnull: false
+    time_start:
+      type: time
+      notnull: false
+    date_end:
+      type: date
+      notnull: false
+    time_end:
+      type: time
+      notnull: false
+    is_default:
+      type: boolean
+      notnull: true
+      default: 0
+    suffix:
+      type: string(32)
+      notnull: false
+    min_periods:
+      type: integer
+      notnull: true
+      default: 1
+    bonus_periods:
+      type: integer
+      notnull: false
+    bonus_period_id:
+      type: integer
+      notnulll: false
+    rank:
+      type: integer(11)
+      notnull: true
+  relations:
+    Plan:
+      local: plan_id
+      foreign: id
+      type: one
+      foreignAlias: Prices
+      onDelete: cascade
+    Period:
+      class: PlanPeriod
+      local: period_id
+      foreign: id
+      type: one
+    BonusPeriod:
+      class: PlanPeriod
+      local: bonus_period_id
+      foreign: id
+      type: one
+
+PlanFeature:
+  tableName: plan_feature
+  columns:
+    id:
+      type: integer(11)
+      primary: true
+      notnull: true
+      autoincrement: true
+    plan_id:
+      type: integer(11)
+      primary: false
+      notnull: true
+    definition_id:
+      type: integer(11)
+      primary: false
+      notnull: true
+    value:
+      type: string(255)
+      fixed: true
+      notnull: true
+    period_id:
+      type: integer
+      notnull: false
+    unit_id:
+      type: integer
+      notnull: false
+  relations:
+    Plan:
+      local: plan_id
+      foreign: id
+      type: one
+      foreignAlias: Features
+      onDelete: cascade
+    PlanFeatureDefinition:
+      local: definition_id
+      foreign: id
+      type: one
+      foreignAlias: Features
+      onDelete: cascade
+    PlanPeriod:
+      local: period_id
+      foreign:id
+      type: one
+    PlanUnit:
+      local: unit_id
+      foreign: id
+      type: one
+  indexes:
+    plan:
+      fields: [plan_id, definition_id]
+      type: unique
