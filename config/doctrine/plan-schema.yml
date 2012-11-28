@@ -36,7 +36,7 @@ Plan:
     category:
       type: string(128)
       notnull: false
-    sortable_rank:
+    rank:
       type: integer(4)
       fixed: false
       unsigned: false
@@ -59,7 +59,7 @@ PlanFeatureDefinition:
     description:
       type: string()
       notnull: false
-    sortable_rank:
+    rank:
       type: integer(4)
       notnull: true
 
@@ -104,7 +104,7 @@ PlanPeriod:
       type: integer(4)
       notnull: true
       default: 0
-    sortable_rank:
+    rank:
       type: integer(4)
       notnull: true
 
