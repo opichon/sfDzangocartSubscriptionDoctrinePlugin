@@ -238,7 +238,7 @@ PlanFeature:
       onDelete: cascade
     PlanPeriod:
       local: period_id
-      foreign:id
+      foreign: id
       type: one
     PlanUnit:
       local: unit_id
