@@ -175,7 +175,7 @@ PlanPrice:
       notnull: false
     bonus_period_id:
       type: integer
-      notnulll: false
+      notnull: false
     rank:
       type: integer(11)
       notnull: true
